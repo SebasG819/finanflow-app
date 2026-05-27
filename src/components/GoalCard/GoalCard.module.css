@@ -1,0 +1,121 @@
+.card {
+  align-items: center;
+  background: var(--panel);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 10px 14px;
+  grid-template-columns: 50px minmax(0, 1fr) auto;
+  padding: 24px;
+}
+
+.icon {
+  align-items: center;
+  background: #efe6ff;
+  border-radius: 13px;
+  color: #7430e6;
+  display: grid;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+}
+
+.copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.copy strong {
+  font-size: 15px;
+}
+
+.copy span {
+  color: #626875;
+  font-size: 13px;
+}
+
+.percent {
+  color: #7430e6;
+  font-size: 17px;
+}
+
+.progress {
+  grid-column: 1 / -1;
+}
+
+.range {
+  display: flex;
+  font-size: 13px;
+  font-weight: 700;
+  justify-content: space-between;
+  margin-top: 9px;
+}
+
+.range span:last-child {
+  color: #4d5260;
+  font-weight: 500;
+}
+
+.completed {
+  align-items: center;
+  background: #eef4ff;
+  border: 1px dashed #cbd7ec;
+  border-radius: 22px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 52px minmax(0, 1fr);
+  padding: 28px 24px;
+}
+
+.check {
+  align-items: center;
+  background: #347763;
+  border-radius: 50%;
+  color: #ffffff;
+  display: grid;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+}
+
+.badge {
+  background: #d9edf4;
+  border-radius: 20px;
+  color: var(--green-600);
+  font-size: 10px;
+  font-weight: 900;
+  justify-self: start;
+  padding: 5px 10px;
+  text-transform: uppercase;
+}
+
+.saved {
+  color: var(--mint-500);
+  font-size: 17px;
+  justify-self: end;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+}
+
+.actions button {
+  background: #edf3ff;
+  border: 0;
+  border-radius: 8px;
+  color: var(--blue-900);
+  font-size: 12px;
+  font-weight: 800;
+  height: 30px;
+  padding: 0 10px;
+}
+
+.actions button:last-child {
+  background: #fff0f0;
+  color: var(--red-600);
+}

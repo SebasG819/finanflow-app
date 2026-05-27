@@ -1,0 +1,25 @@
+.track {
+  background: #edf2f9;
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.fill {
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+}
+
+.blue {
+  background: var(--blue-800);
+}
+
+.purple {
+  background: linear-gradient(90deg, #8b42ef, #7430e6);
+}
+
+.green {
+  background: var(--mint-500);
+}

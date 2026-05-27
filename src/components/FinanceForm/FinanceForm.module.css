@@ -1,0 +1,63 @@
+.form {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.select {
+  display: grid;
+  gap: 8px;
+}
+
+.select span {
+  color: var(--ink-700);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.select select {
+  background: #ffffff;
+  border: 1px solid #dbe3ef;
+  border-radius: 10px;
+  color: var(--ink-900);
+  font-size: 16px;
+  min-height: 50px;
+  padding: 0 14px;
+}
+
+.actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.actions button {
+  border-radius: 8px;
+  font-weight: 800;
+  height: 46px;
+}
+
+.actions button:first-child {
+  background: #eef3fb;
+  border: 0;
+  color: var(--ink-700);
+}
+
+.actions button:last-child {
+  background: var(--blue-900);
+  border: 0;
+  color: #ffffff;
+}
+
+.error {
+  background: #fff0f0;
+  border: 1px solid #ffd0d0;
+  border-radius: 8px;
+  color: var(--red-600);
+  font-size: 13px;
+  margin: 0;
+  padding: 10px 12px;
+}

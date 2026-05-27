@@ -1,0 +1,18 @@
+.intro {
+  margin-bottom: 20px;
+}
+
+.intro h1 {
+  color: #07182c;
+  font-size: 26px;
+  line-height: 1.1;
+  margin: 0 0 6px;
+}
+
+.intro p {
+  color: #4f5360;
+  font-size: 16px;
+  line-height: 1.35;
+  margin: 0;
+  max-width: 280px;
+}

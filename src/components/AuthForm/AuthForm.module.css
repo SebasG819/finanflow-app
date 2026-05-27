@@ -1,0 +1,79 @@
+.stage {
+  background: #e8edf7;
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+}
+
+.panel {
+  background: var(--page);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 34px 24px;
+  width: min(100vw, 430px);
+}
+
+.brand {
+  color: var(--blue-900);
+  font-size: 17px;
+  font-weight: 900;
+  margin-bottom: 56px;
+}
+
+.intro h1 {
+  font-size: 32px;
+  line-height: 1.08;
+  margin: 0 0 10px;
+}
+
+.intro p {
+  color: var(--ink-500);
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.form {
+  display: grid;
+  gap: 15px;
+  margin-top: 34px;
+}
+
+.submit {
+  background: linear-gradient(105deg, #2447a8, #7a26df);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 8px 15px rgba(44, 63, 164, 0.22);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  height: 56px;
+  margin-top: 4px;
+}
+
+.submit:disabled {
+  opacity: 0.65;
+}
+
+.error {
+  background: #fff0f0;
+  border: 1px solid #ffd0d0;
+  border-radius: 8px;
+  color: var(--red-600);
+  font-size: 13px;
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.footer {
+  color: var(--ink-500);
+  font-size: 14px;
+  margin-top: 24px;
+  text-align: center;
+}
+
+.footer a {
+  color: var(--blue-900);
+  font-weight: 800;
+}

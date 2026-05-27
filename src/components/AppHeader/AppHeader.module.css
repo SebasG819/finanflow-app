@@ -1,0 +1,46 @@
+.header {
+  align-items: center;
+  background: var(--page);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  height: 66px;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  color: var(--blue-900);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+}
+
+.iconButton {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: #343946;
+  display: grid;
+  height: 36px;
+  justify-content: center;
+  padding: 0;
+  width: 36px;
+}
+
+.avatar {
+  background:
+    radial-gradient(circle at 52% 30%, #f2c9a4 0 16%, transparent 17%),
+    linear-gradient(145deg, #102852 0 48%, #e9effa 49% 60%, #274f8f 61%);
+  border: 2px solid #d9e5f7;
+  border-radius: 50%;
+  height: 34px;
+  width: 34px;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "FinanFlow",
+  "short_name": "FinanFlow",
+  "description": "Finanzas personales, gastos, ingresos y metas.",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "theme_color": "#082b83",
+  "background_color": "#f5f7fc",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

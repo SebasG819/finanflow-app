@@ -1,0 +1,29 @@
+.scroller {
+  display: flex;
+  gap: 10px;
+  margin: 0 -16px;
+  overflow-x: auto;
+  padding: 0 16px 2px;
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.pill {
+  background: #e7efff;
+  border: 0;
+  border-radius: 24px;
+  color: #4f5360;
+  flex: 0 0 auto;
+  font-size: 16px;
+  height: 40px;
+  min-width: 82px;
+  padding: 0 24px;
+}
+
+.active {
+  background: linear-gradient(105deg, #2447a8, #6530d4);
+  color: #ffffff;
+}

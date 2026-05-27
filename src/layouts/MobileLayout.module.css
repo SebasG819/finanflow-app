@@ -1,0 +1,25 @@
+.stage {
+  background: #e8edf7;
+  display: flex;
+  justify-content: center;
+  min-height: 100dvh;
+}
+
+.phone {
+  background: var(--page);
+  min-height: 100dvh;
+  overflow: hidden;
+  position: relative;
+  width: min(100vw, 430px);
+}
+
+.content {
+  min-height: calc(100dvh - 66px);
+  padding: 18px 16px 112px;
+}
+
+@media (min-width: 431px) {
+  .phone {
+    box-shadow: 0 20px 80px rgba(8, 23, 62, 0.22);
+  }
+}

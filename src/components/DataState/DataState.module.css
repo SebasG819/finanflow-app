@@ -1,0 +1,19 @@
+.state {
+  background: #ffffff;
+  border: 1px dashed #cfdaeb;
+  border-radius: 16px;
+  color: var(--ink-700);
+  display: grid;
+  gap: 6px;
+  padding: 22px;
+  text-align: center;
+}
+
+.state strong {
+  color: var(--blue-900);
+}
+
+.state span {
+  color: var(--ink-500);
+  font-size: 14px;
+}

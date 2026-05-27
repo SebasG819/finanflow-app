@@ -1,0 +1,9 @@
+.state {
+  align-items: center;
+  background: var(--page);
+  color: var(--blue-900);
+  display: grid;
+  font-weight: 800;
+  min-height: 100vh;
+  place-items: center;
+}

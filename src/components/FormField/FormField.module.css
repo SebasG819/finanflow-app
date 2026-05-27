@@ -1,0 +1,35 @@
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  color: var(--ink-700);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.field input,
+.field select,
+.field textarea {
+  background: #ffffff;
+  border: 1px solid #dbe3ef;
+  border-radius: 10px;
+  color: var(--ink-900);
+  font-size: 16px;
+  min-height: 50px;
+  outline: none;
+  padding: 0 14px;
+  width: 100%;
+}
+
+.field select {
+  appearance: none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--blue-700);
+  box-shadow: 0 0 0 3px rgba(36, 71, 168, 0.12);
+}

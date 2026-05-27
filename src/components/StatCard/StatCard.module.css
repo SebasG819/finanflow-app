@@ -1,0 +1,49 @@
+.card {
+  background: var(--panel);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-height: 118px;
+  padding: 24px;
+}
+
+.compact {
+  min-height: 104px;
+  padding: 20px 16px;
+}
+
+.label {
+  color: #4d5260;
+  font-size: 16px;
+}
+
+.value {
+  color: var(--blue-900);
+  font-size: 34px;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.compact .value {
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+
+.trend {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.positive {
+  color: var(--green-600);
+}
+
+.negative {
+  color: var(--red-600);
+}
+
+.neutral {
+  color: var(--ink-500);
+}
