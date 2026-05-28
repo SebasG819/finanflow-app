@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabaseClient';
 interface AuthContextValue {
   user: User | null;
   session: Session | null;
+  loadingAuth: boolean;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, fullName: string) => Promise<void>;
@@ -15,20 +16,28 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(({ data }) => {
-      if (!mounted) return;
-      setSession(data.session);
-      setLoading(false);
-    });
+    const loadSession = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (!mounted) return;
+        setSession(data.session);
+      } finally {
+        if (mounted) {
+          setLoadingAuth(false);
+        }
+      }
+    };
+
+    loadSession();
 
     const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
       setSession(nextSession);
-      setLoading(false);
+      setLoadingAuth(false);
     });
 
     return () => {
@@ -63,12 +72,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     () => ({
       user: session?.user ?? null,
       session,
-      loading,
+      loadingAuth,
+      loading: loadingAuth,
       login,
       register,
       logout,
     }),
-    [loading, login, logout, register, session],
+    [loadingAuth, login, logout, register, session],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

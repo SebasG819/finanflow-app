@@ -3,10 +3,10 @@ import { useAuth } from '../context/AuthContext';
 import styles from './RouteState.module.css';
 
 export function PublicOnlyRoute() {
-  const { user, loading } = useAuth();
+  const { user, loadingAuth } = useAuth();
 
-  if (loading) {
-    return <div className={styles.state}>Cargando sesion...</div>;
+  if (loadingAuth) {
+    return <div className={styles.state}>Cargando sesión...</div>;
   }
 
   if (user) {
