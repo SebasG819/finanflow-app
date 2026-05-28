@@ -5,8 +5,12 @@ import styles from './SettingsPage.module.css';
 
 export function SettingsPage() {
   const { user, logout } = useAuth();
-  const { canInstall, installApp } = useInstallPrompt();
+  const { canInstall, installed, isIos, installApp } = useInstallPrompt();
   const fullName = user?.user_metadata.full_name as string | undefined;
+  const installStatus = installed ? 'Ya instalada' : canInstall ? 'Instalable' : 'No disponible en este navegador';
+  const installHelp = isIos
+    ? "En iPhone, toca Compartir y luego 'Agregar a pantalla de inicio'."
+    : "Abre esta app desde Chrome en tu celular y usa la opción 'Instalar app' o 'Agregar a pantalla principal'.";
 
   return (
     <div className={styles.page}>
@@ -27,15 +31,23 @@ export function SettingsPage() {
       </section>
 
       <section className={styles.section}>
-        <h2>Aplicacion</h2>
+        <h2>Instalación</h2>
+        <div className={styles.row}>
+          <span>Estado</span>
+          <strong>{installStatus}</strong>
+        </div>
         {canInstall ? (
           <button className={styles.actionRow} onClick={installApp}>
             <Smartphone size={20} />
             <span>Instalar como app</span>
           </button>
         ) : (
-          <div className={styles.note}>La instalación estará disponible desde el navegador del celular.</div>
+          <div className={styles.note}>{installHelp}</div>
         )}
+      </section>
+
+      <section className={styles.section}>
+        <h2>Aplicacion</h2>
         <div className={styles.actionRow}>
           <Moon size={20} />
           <span>Tema oscuro</span>

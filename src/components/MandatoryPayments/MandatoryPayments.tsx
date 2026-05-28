@@ -28,7 +28,7 @@ export function MandatoryPayments({ expenses, total, freeBalance, onMarkInstallm
         <strong>{formatCurrency(freeBalance)}</strong>
       </div>
       {expenses.length === 0 ? (
-        <div className={styles.empty}>No tienes pagos obligatorios pendientes.</div>
+        <div className={styles.empty}>No tienes pagos obligatorios pendientes este mes.</div>
       ) : (
         <div className={styles.list}>
           {expenses.map((expense) => {

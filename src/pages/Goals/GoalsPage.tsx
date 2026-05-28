@@ -29,7 +29,7 @@ export function GoalsPage() {
     <div className={styles.page}>
       <PageIntro title="Metas" subtitle="Sigue el progreso de tus objetivos financieros" />
       <div className={styles.totalCard}>
-        <StatCard label="Ahorro total en metas" value={formatCurrency(summary.totalSaved)} trend="↗ +18% este mes" tone="positive" />
+        <StatCard label="Ahorro total en metas" value={formatCurrency(summary.totalSaved)} />
         <div className={styles.icons}>
           <span>$</span>
           <span>
@@ -61,7 +61,7 @@ export function GoalsPage() {
       {loading ? <DataState title="Cargando metas..." /> : null}
       {error ? <DataState title="No se pudieron cargar las metas" message={error} /> : null}
       {!loading && !error && goals.length === 0 ? (
-        <DataState title="Sin metas todavia" message="Crea una meta para hacer seguimiento de tu ahorro." />
+        <DataState title="Sin metas todavia" message="Crea tu primera meta para empezar a seguir tu progreso financiero." />
       ) : null}
       <section className={styles.section}>
         <h2>Metas activas</h2>

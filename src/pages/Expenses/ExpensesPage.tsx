@@ -9,7 +9,7 @@ import { StatCard } from '../../components/StatCard/StatCard';
 import { TransactionList } from '../../components/TransactionList/TransactionList';
 import { useFinanceData } from '../../hooks/useFinanceData';
 import type { Expense } from '../../types/finance';
-import { formatCurrency } from '../../utils/formatters';
+import { formatCurrency, formatVariation } from '../../utils/formatters';
 import styles from './ExpensesPage.module.css';
 
 const expenseFilters = ['Todos', 'Alimentacion', 'Transporte'];
@@ -30,8 +30,8 @@ export function ExpensesPage() {
       <StatCard
         label="Total gastado en mayo"
         value={formatCurrency(summary.monthlyExpenses)}
-        trend="↗ 8% mas que el mes pasado"
-        tone="negative"
+        trend={formatVariation(summary.expenseVariation)}
+        tone={(summary.expenseVariation ?? 0) > 0 ? 'negative' : 'positive'}
       />
       <ActionButton icon={Plus} onClick={() => setShowForm(true)}>
         Agregar gasto

@@ -1,6 +1,7 @@
 import { CheckCircle2 } from 'lucide-react';
 import type { GoalRecord } from '../../types/finance';
-import { formatCurrency, getPercent } from '../../utils/formatters';
+import { formatCurrency } from '../../utils/formatters';
+import { calculateGoalProgress } from '../../utils/financeStats';
 import { iconMap, type IconName } from '../../utils/iconMap';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 import styles from './GoalCard.module.css';
@@ -14,7 +15,7 @@ interface GoalCardProps {
 
 export function GoalCard({ goal, onEdit, onAddMoney, onRemove }: GoalCardProps) {
   const current = Number(goal.current ?? 0);
-  const progress = getPercent(current, Number(goal.target));
+  const progress = calculateGoalProgress(current, Number(goal.target));
   const iconName = goal.category?.toLowerCase().includes('viaj') ? 'plane' : 'laptop';
   const Icon = iconMap[iconName as IconName];
 
@@ -57,6 +58,7 @@ export function GoalCard({ goal, onEdit, onAddMoney, onRemove }: GoalCardProps) 
           <span>{formatCurrency(current)}</span>
           <span>de {formatCurrency(goal.target)}</span>
         </div>
+        {current <= 0 ? <p className={styles.emptyProgress}>Aún no has añadido dinero a esta meta.</p> : null}
       </div>
       <div className={styles.actions}>
         {onEdit ? <button onClick={() => onEdit(goal)}>Editar</button> : null}

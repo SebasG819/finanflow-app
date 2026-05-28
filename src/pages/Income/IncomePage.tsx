@@ -10,7 +10,7 @@ import { StatCard } from '../../components/StatCard/StatCard';
 import { TransactionList } from '../../components/TransactionList/TransactionList';
 import { useFinanceData } from '../../hooks/useFinanceData';
 import type { Income } from '../../types/finance';
-import { formatCurrency } from '../../utils/formatters';
+import { formatCurrency, formatVariation } from '../../utils/formatters';
 import styles from './IncomePage.module.css';
 
 const incomeFilters = ['Todos', 'Salario', 'Freelance', 'Ventas'];
@@ -31,7 +31,7 @@ export function IncomePage() {
       <StatCard
         label="Total ingresos en mayo"
         value={formatCurrency(summary.monthlyIncome)}
-        trend="↗ 8% respecto al mes pasado"
+        trend={formatVariation(summary.incomeVariation)}
         tone="positive"
       />
       <ActionButton icon={Plus} onClick={() => setShowForm(true)}>

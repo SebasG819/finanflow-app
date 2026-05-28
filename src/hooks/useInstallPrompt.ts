@@ -7,7 +7,11 @@ interface BeforeInstallPromptEvent extends Event {
 
 export function useInstallPrompt() {
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null);
-  const [installed, setInstalled] = useState(false);
+  const [installed, setInstalled] = useState(() => {
+    const navigatorWithStandalone = navigator as Navigator & { standalone?: boolean };
+    return window.matchMedia('(display-mode: standalone)').matches || navigatorWithStandalone.standalone === true;
+  });
+  const [isIos] = useState(() => /iphone|ipad|ipod/i.test(window.navigator.userAgent));
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (event: Event) => {
@@ -22,10 +26,14 @@ export function useInstallPrompt() {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleInstalled);
+    const standaloneMedia = window.matchMedia('(display-mode: standalone)');
+    const handleStandaloneChange = (event: MediaQueryListEvent) => setInstalled(event.matches);
+    standaloneMedia.addEventListener('change', handleStandaloneChange);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleInstalled);
+      standaloneMedia.removeEventListener('change', handleStandaloneChange);
     };
   }, []);
 
@@ -40,6 +48,7 @@ export function useInstallPrompt() {
   return {
     canInstall: Boolean(installEvent) && !installed,
     installed,
+    isIos,
     installApp,
   };
 }

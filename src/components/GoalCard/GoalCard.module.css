@@ -57,6 +57,12 @@
   font-weight: 500;
 }
 
+.emptyProgress {
+  color: var(--ink-500);
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
 .completed {
   align-items: center;
   background: #eef4ff;

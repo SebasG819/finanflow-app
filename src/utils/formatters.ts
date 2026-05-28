@@ -12,3 +12,9 @@ export const formatSignedCurrency = (value: number) => {
 
 export const getPercent = (current: number, target: number) =>
   Math.min(Math.round((current / target) * 100), 100);
+
+export const formatVariation = (value: number | null, suffix = 'vs mes anterior') => {
+  if (value === null) return undefined;
+  const prefix = value > 0 ? '+' : '';
+  return `${prefix}${value}% ${suffix}`;
+};

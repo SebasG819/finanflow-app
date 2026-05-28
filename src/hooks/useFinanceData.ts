@@ -14,15 +14,17 @@ import type {
   IncomeInsert,
   IncomeUpdate,
 } from '../types/finance';
+import { getMandatoryExpenses, getTotalSaved } from '../utils/financeCalculations';
 import {
-  getExpenseBreakdown,
-  getMandatoryExpenses,
-  getMandatoryPendingMonth,
-  getMonthlyExpenseTotal,
-  getMonthlyIncomeTotal,
-  getMonthlyTrends,
-  getTotalSaved,
-} from '../utils/financeCalculations';
+  calculateAvailableBalance,
+  calculateCategoryBreakdown,
+  calculateFreeBalance,
+  calculateMonthVariation,
+  calculateMonthlyTrend,
+  calculateSavingsPercentage,
+  getCurrentMonthData,
+  getPreviousMonthData,
+} from '../utils/financeStats';
 
 export const useFinanceData = () => {
   const { user } = useAuth();
@@ -151,22 +153,28 @@ export const useFinanceData = () => {
   );
 
   const summary = useMemo(() => {
-    const monthlyIncome = getMonthlyIncomeTotal(incomes);
-    const monthlyExpenses = getMonthlyExpenseTotal(expenses);
-    const mandatoryPendingMonth = getMandatoryPendingMonth(expenses);
-    const balance = monthlyIncome - monthlyExpenses;
+    const currentMonth = getCurrentMonthData(expenses, incomes);
+    const previousMonth = getPreviousMonthData(expenses, incomes);
+    const balance = calculateAvailableBalance(currentMonth.income, currentMonth.expenseTotal);
 
     return {
       balance,
-      monthlyIncome,
-      monthlyExpenses,
-      mandatoryPendingMonth,
+      monthlyIncome: currentMonth.income,
+      monthlyExpenses: currentMonth.expenseTotal,
+      mandatoryPendingMonth: currentMonth.mandatoryPending,
       mandatoryExpenses: getMandatoryExpenses(expenses),
-      freeBalance: balance - mandatoryPendingMonth,
-      savingsPercent: monthlyIncome ? Math.max(Math.round(((balance - mandatoryPendingMonth) / monthlyIncome) * 100), 0) : 0,
+      freeBalance: calculateFreeBalance(currentMonth.income, currentMonth.expenseTotal, currentMonth.mandatoryPending),
+      savingsPercent: calculateSavingsPercentage(currentMonth.income, currentMonth.expenseTotal),
+      incomeVariation: calculateMonthVariation(currentMonth.income, previousMonth.income),
+      expenseVariation: calculateMonthVariation(currentMonth.expenseTotal, previousMonth.expenseTotal),
+      balanceVariation: calculateMonthVariation(balance, calculateAvailableBalance(previousMonth.income, previousMonth.expenseTotal)),
+      hasIncome: currentMonth.incomes.length > 0,
+      hasExpenses: currentMonth.expenses.length > 0,
+      hasSavingsData: currentMonth.income > 0 && currentMonth.expenseTotal > 0,
+      hasTrendData: expenses.length > 0 || incomes.length > 0,
       totalSaved: getTotalSaved(goals),
-      expenseBreakdown: getExpenseBreakdown(expenses),
-      trends: getMonthlyTrends(expenses, incomes),
+      expenseBreakdown: calculateCategoryBreakdown(expenses),
+      trends: calculateMonthlyTrend(expenses, incomes),
     };
   }, [expenses, goals, incomes]);
 
