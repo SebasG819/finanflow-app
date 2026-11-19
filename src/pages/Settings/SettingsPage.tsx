@@ -1,4 +1,5 @@
-import { LogOut, Moon, Smartphone } from 'lucide-react';
+import { LogOut, Mail, Moon, Smartphone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useInstallPrompt } from '../../hooks/useInstallPrompt';
 import styles from './SettingsPage.module.css';
@@ -28,6 +29,14 @@ export function SettingsPage() {
           <span>Correo</span>
           <strong>{user?.email ?? 'Sin correo'}</strong>
         </div>
+      </section>
+
+      <section className={styles.section}>
+        <h2>Correo</h2>
+        <Link className={styles.actionRow} to="/gmail">
+          <Mail size={20} />
+          <span>Movimientos de Gmail</span>
+        </Link>
       </section>
 
       <section className={styles.section}>

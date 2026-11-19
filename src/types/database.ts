@@ -171,9 +171,89 @@ export interface Database {
           },
         ];
       };
+      gmail_imports: {
+        Row: {
+          id: string;
+          user_id: string;
+          message_id: string;
+          sender: string;
+          subject: string;
+          title: string;
+          amount: number | null;
+          kind: 'expense' | 'income' | null;
+          message_date: string;
+          status: 'pending' | 'saved' | 'discarded';
+          transaction_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          message_id: string;
+          sender: string;
+          subject: string;
+          title: string;
+          amount?: number | null;
+          kind?: 'expense' | 'income' | null;
+          message_date: string;
+          status?: 'pending' | 'saved' | 'discarded';
+          transaction_id?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          message_id?: string;
+          sender?: string;
+          subject?: string;
+          title?: string;
+          amount?: number | null;
+          kind?: 'expense' | 'income' | null;
+          message_date?: string;
+          status?: 'pending' | 'saved' | 'discarded';
+          transaction_id?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      gmail_sender_rules: {
+        Row: {
+          id: string;
+          user_id: string;
+          sender: string;
+          auto_save: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          sender: string;
+          auto_save?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          sender?: string;
+          auto_save?: boolean;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      save_gmail_import: {
+        Args: {
+          p_import_id: string;
+          p_title: string;
+          p_amount: number;
+          p_kind: string;
+          p_category: string;
+        };
+        Returns: string;
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

@@ -1,0 +1,37 @@
+.page { display: grid; gap: 16px; min-width: 0; }
+.back { align-items: center; color: var(--blue-900); display: inline-flex; font-size: 13px; font-weight: 800; gap: 7px; width: fit-content; }
+.panel, .importCard, .rule { background: #fff; border-radius: 12px; box-shadow: var(--shadow); padding: 16px; }
+.connection { align-items: center; display: flex; gap: 12px; }
+.connection > svg { color: var(--blue-900); flex: none; }
+.connection div { display: grid; gap: 3px; min-width: 0; }
+.connection strong { color: var(--ink-900); font-size: 15px; }
+.connection span, .note, .messageOrigin { color: var(--ink-500); font-size: 13px; line-height: 1.4; }
+.note { margin: 12px 0 0; }
+.actions { display: grid; gap: 10px; margin-top: 16px; }
+.primaryButton, .secondaryButton { align-items: center; border: 0; border-radius: 8px; display: inline-flex; font-weight: 800; gap: 8px; justify-content: center; min-height: 46px; padding: 11px 14px; width: 100%; }
+.primaryButton { background: linear-gradient(110deg, var(--blue-900), var(--purple-600)); color: #fff; }
+.secondaryButton { background: var(--soft-blue); color: var(--blue-900); }
+.primaryButton:disabled, .secondaryButton:disabled, .cardActions button:disabled { opacity: .55; }
+.notice, .error { border-radius: 8px; font-size: 13px; line-height: 1.4; margin: 0; padding: 12px; }
+.notice { background: #e7f8f0; color: #08774d; }
+.error { background: #fff0ef; color: var(--red-600); }
+.listSection { display: grid; gap: 12px; min-width: 0; }
+.listSection h2 { align-items: center; color: var(--blue-900); display: flex; font-size: 15px; gap: 8px; margin: 0; text-transform: uppercase; }
+.listSection h2 span { background: var(--soft-blue); border-radius: 99px; font-size: 12px; padding: 3px 7px; }
+.importCard { min-width: 0; }
+.cardTop { align-items: start; display: flex; gap: 8px; justify-content: space-between; }
+.cardTop strong { color: var(--ink-900); font-size: 15px; min-width: 0; overflow-wrap: anywhere; }
+.cardTop b { color: var(--blue-900); flex: none; font-size: 14px; white-space: nowrap; }
+.importCard p { color: var(--ink-500); font-size: 12px; margin: 8px 0; overflow-wrap: anywhere; }
+.cardMeta { color: var(--ink-700); display: flex; font-size: 12px; gap: 12px; justify-content: space-between; }
+.cardActions { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; margin-top: 14px; }
+.cardActions button { align-items: center; background: var(--soft-blue); border: 0; border-radius: 8px; color: var(--blue-900); display: flex; font-size: 13px; font-weight: 800; gap: 6px; justify-content: center; min-height: 38px; }
+.cardActions button:last-child { background: #f5f7fc; color: var(--ink-700); }
+.rule { align-items: center; display: flex; font-size: 13px; gap: 8px; justify-content: space-between; overflow-wrap: anywhere; }
+.rule button { background: transparent; border: 0; color: var(--red-600); flex: none; padding: 5px; }
+.reviewForm { display: grid; gap: 13px; }
+.reviewForm label { color: var(--ink-700); display: grid; font-size: 13px; font-weight: 700; gap: 6px; }
+.reviewForm input:not([type='checkbox']), .reviewForm select { background: #fff; border: 1px solid #dbe3f1; border-radius: 8px; color: var(--ink-900); min-height: 44px; padding: 10px; width: 100%; }
+.reviewForm .checkboxRow { align-items: start; display: grid; font-weight: 500; gap: 9px; grid-template-columns: 18px 1fr; line-height: 1.35; }
+.checkboxRow input { height: 17px; margin: 1px 0 0; width: 17px; }
+.messageOrigin { margin: 0; overflow-wrap: anywhere; }

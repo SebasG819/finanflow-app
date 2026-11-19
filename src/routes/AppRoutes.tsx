@@ -5,6 +5,7 @@ import { RegisterPage } from '../pages/Auth/RegisterPage';
 import { DashboardPage } from '../pages/Dashboard/DashboardPage';
 import { ExpensesPage } from '../pages/Expenses/ExpensesPage';
 import { GoalsPage } from '../pages/Goals/GoalsPage';
+import { GmailPage } from '../pages/Gmail/GmailPage';
 import { IncomePage } from '../pages/Income/IncomePage';
 import { ReportsPage } from '../pages/Reports/ReportsPage';
 import { SettingsPage } from '../pages/Settings/SettingsPage';
@@ -27,6 +28,7 @@ export function AppRoutes() {
           <Route path="goals" element={<GoalsPage />} />
           <Route path="reports" element={<ReportsPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="gmail" element={<GmailPage />} />
         </Route>
       </Route>
 

@@ -1,6 +1,7 @@
 import type { Session, User } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { GmailApi } from '../services/GmailApi';
 
 interface AuthContextValue {
   user: User | null;
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadSession();
 
     const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      if (!nextSession) GmailApi.disconnect();
       setSession(nextSession);
       setLoadingAuth(false);
     });
@@ -73,6 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
+    GmailApi.disconnect();
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   }, []);
