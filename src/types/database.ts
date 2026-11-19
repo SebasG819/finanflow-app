@@ -183,6 +183,7 @@ export interface Database {
           kind: 'expense' | 'income' | null;
           message_date: string;
           status: 'pending' | 'saved' | 'discarded';
+          auto_save_eligible: boolean;
           transaction_id: string | null;
           created_at: string;
         };
@@ -197,6 +198,7 @@ export interface Database {
           kind?: 'expense' | 'income' | null;
           message_date: string;
           status?: 'pending' | 'saved' | 'discarded';
+          auto_save_eligible?: boolean;
           transaction_id?: string | null;
           created_at?: string;
         };
@@ -211,6 +213,7 @@ export interface Database {
           kind?: 'expense' | 'income' | null;
           message_date?: string;
           status?: 'pending' | 'saved' | 'discarded';
+          auto_save_eligible?: boolean;
           transaction_id?: string | null;
           created_at?: string;
         };

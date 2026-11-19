@@ -35,3 +35,5 @@
 .reviewForm .checkboxRow { align-items: start; display: grid; font-weight: 500; gap: 9px; grid-template-columns: 18px 1fr; line-height: 1.35; }
 .checkboxRow input { height: 17px; margin: 1px 0 0; width: 17px; }
 .messageOrigin { margin: 0; overflow-wrap: anywhere; }
+.bulkConfirm { display: grid; gap: 12px; }
+.bulkConfirm p { color: var(--ink-700); font-size: 14px; line-height: 1.5; margin: 0 0 4px; }

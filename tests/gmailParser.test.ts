@@ -77,5 +77,66 @@ test('never auto-classifies a rejected or pending purchase', () => {
     date: '2026-11-07',
   });
 
+  assert.equal(result, null);
+});
+
+test('ignores an unpaid invoice even when it includes an amount', () => {
+  const result = parseFinancialMessage({
+    id: 'invoice', from: 'facturas@servicio.example', subject: 'Tu factura está disponible',
+    body: 'Tienes un pago pendiente de $82.000. Vence el viernes.', date: '2026-11-07',
+  });
+  assert.equal(result, null);
+});
+
+test('ignores promotional mail mentioning a purchase price', () => {
+  const result = parseFinancialMessage({
+    id: 'offer', from: 'ofertas@tienda.example', subject: 'Oferta en tu próxima compra',
+    body: 'Compra hoy por $45.900 y recibe un descuento.', date: '2026-11-07',
+  });
+  assert.equal(result, null);
+});
+
+test('marks a confirmed payment with one clear amount as ready', () => {
+  const result = parseFinancialMessage({
+    id: 'paid', from: 'pagos@servicio.example', subject: 'Pago realizado',
+    body: 'Tu pago realizado por $82.000 fue exitoso.', date: '2026-11-07',
+  });
+  assert.equal(result?.amount, 82000);
+  assert.equal(result?.kind, 'expense');
+  assert.equal(result?.autoSaveEligible, true);
+});
+
+test('does not mark a generic receipt as ready without payment evidence', () => {
+  const result = parseFinancialMessage({
+    id: 'receipt', from: 'recibos@tienda.example', subject: 'Tu recibo',
+    body: 'Producto A $10.000.', date: '2026-11-07',
+  });
+  assert.equal(result?.autoSaveEligible, false);
+});
+
+test('ignores a newsletter with a price and generic success language', () => {
+  const result = parseFinancialMessage({
+    id: 'newsletter', from: 'news@tienda.example', subject: 'Novedades para ti',
+    body: 'Compra hoy por $45.900. Tu experiencia será exitosa.', date: '2026-11-07',
+  });
+  assert.equal(result, null);
+});
+
+test('keeps a generic bank subject when the body confirms a transaction', () => {
+  const result = parseFinancialMessage({
+    id: 'bank', from: 'alertas@banco.example', subject: 'Alertas y Notificaciones',
+    body: 'Realizaste una compra por $45.900 en Tienda Norte.', date: '2026-11-07',
+  });
+  assert.equal(result?.kind, 'expense');
+  assert.equal(result?.autoSaveEligible, true);
+});
+
+test('keeps a neutral electronic invoice for review without assuming it was paid', () => {
+  const result = parseFinancialMessage({
+    id: 'invoice-review', from: 'facturacion@tienda.example', subject: 'Factura electrónica',
+    body: 'Factura emitida. Total $99.000.', date: '2026-11-07',
+  });
+  assert.equal(result?.amount, 99000);
   assert.equal(result?.kind, null);
+  assert.equal(result?.autoSaveEligible, false);
 });

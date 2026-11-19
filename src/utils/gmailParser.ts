@@ -18,11 +18,12 @@ export interface ParsedFinancialMessage {
 }
 
 const moneyPattern = /(?:\bCOP\s*|\$\s*)(\d{1,3}(?:[.,]\d{3})+(?:[.,]\d{2})?|\d+(?:[.,]\d{2})?)/gi;
-const financialWords = /\b(compra|compraste|recibo|comprobante|pago|pagaste|transferencia|abono|consignacion|deposito|factura|nomina|reembolso)\b/;
+const financialWords = /\b(compra|compraste|recibo|comprobante|pago|pagaste|transferencia|transaccion|abono|consignacion|deposito|factura|nomina|reembolso)\b/;
+const financialSubject = /\b(compra|recibo|comprobante|factura|pago|transferencia|transaccion|abono|consignacion|deposito|nomina|reembolso)\b/;
 const expenseWords = /\b(compra|compraste|pagaste|pago realizado|debito|cargo)\b/;
 const incomeWords = /\b(recibiste|recibida|abono|consignacion|deposito|nomina|reembolso)\b/;
 const uncertainWords = /\b(rechazad[ao]|cancelad[ao]|pendiente|recordatorio|intento|intento fallido|por pagar|vencid[ao])\b/;
-const completedWords = /\b(realizaste|pagaste|recibiste|aprobada|aprobado|exitosa|exitoso)\b/;
+const completedTransaction = /\b(?:realizaste\s+(?:una?\s+)?(?:compra|transferencia|pago)|(?:compra|pago|transferencia|transaccion|abono|reembolso)\s+(?:realizad[ao]|aprobad[ao]|exitos[ao]|recibid[ao])|pagaste|compraste|recibiste\s+(?:una?\s+)?(?:transferencia|pago|abono))\b/;
 
 function normalize(value: string) {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -39,8 +40,12 @@ function parseAmount(raw: string) {
 }
 
 export function parseFinancialMessage(message: GmailMessageInput): ParsedFinancialMessage | null {
+  const normalizedSubject = normalize(message.subject);
   const normalized = normalize(`${message.subject} ${message.body}`);
-  if (!financialWords.test(normalized)) return null;
+  if (!financialWords.test(normalized) || uncertainWords.test(normalized) ||
+      /\b(oferta|promocion|descuento|cupon|proxima compra)\b/.test(normalizedSubject)) return null;
+  const confirmed = completedTransaction.test(normalized.slice(0, 1200));
+  if (!financialSubject.test(normalizedSubject) && !confirmed) return null;
 
   const matches = [...message.body.matchAll(moneyPattern)]
     .map((match) => ({ amount: parseAmount(match[1]), index: match.index ?? 0 }))
@@ -53,8 +58,8 @@ export function parseFinancialMessage(message: GmailMessageInput): ParsedFinanci
   const amount = contextual.length === 1 ? contextual[0].amount : matches.length === 1 ? matches[0].amount : null;
   const expense = expenseWords.test(normalized);
   const income = incomeWords.test(normalized);
-  const kind = uncertainWords.test(normalized) || expense === income ? null : expense ? 'expense' : 'income';
-  const autoSaveEligible = amount !== null && kind !== null && completedWords.test(normalize(message.body));
+  const kind = expense === income ? null : expense ? 'expense' : 'income';
+  const autoSaveEligible = amount !== null && kind !== null && confirmed;
   const sender = (message.from.match(/<([^>]+)>/)?.[1] ?? message.from).trim().toLowerCase();
 
   return {

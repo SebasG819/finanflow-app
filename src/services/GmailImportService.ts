@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabaseClient';
 import type { Database } from '../types/database';
-import { canAutoSave } from '../utils/gmailAutoSave';
+import { canAutoSave, reconcileScannedImports, selectBulkSaveCandidates } from '../utils/gmailAutoSave';
 import type { ParsedFinancialMessage } from '../utils/gmailParser';
 
 export type GmailImport = Database['public']['Tables']['gmail_imports']['Row'];
@@ -21,18 +21,6 @@ function ninetyDaysAgo() {
 }
 
 export const GmailImportService = {
-  async getPending(userId: string): Promise<GmailImport[]> {
-    const { data, error } = await supabase
-      .from('gmail_imports')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('status', 'pending')
-      .order('created_at', { ascending: false })
-      .limit(1000);
-    if (error) throw error;
-    return data ?? [];
-  },
-
   async getRecent(userId: string): Promise<GmailImport[]> {
     const { data, error } = await supabase
       .from('gmail_imports')
@@ -55,11 +43,22 @@ export const GmailImportService = {
     return data ?? [];
   },
 
-  async ingest(userId: string, candidates: ParsedFinancialMessage[]) {
+  async ingest(userId: string, candidates: ParsedFinancialMessage[], scannedIds: string[]) {
     const existing = await this.getRecent(userId);
+    const { updates, discardIds } = reconcileScannedImports(existing, candidates, scannedIds);
+    if (discardIds.length > 0) {
+      const { error } = await supabase.from('gmail_imports').update({ status: 'discarded', auto_save_eligible: false })
+        .eq('user_id', userId).eq('status', 'pending').in('id', discardIds);
+      if (error) throw error;
+    }
+    for (const item of updates) {
+      const { error } = await supabase.from('gmail_imports').update({ auto_save_eligible: item.auto_save_eligible })
+        .eq('user_id', userId).eq('status', 'pending').eq('id', item.id);
+      if (error) throw error;
+    }
     const knownIds = new Set(existing.map((item) => item.message_id));
     const fresh = candidates.filter((candidate) => !knownIds.has(candidate.id));
-    if (fresh.length === 0) return { added: 0, autoSaved: 0 };
+    if (fresh.length === 0) return { added: 0, autoSaved: 0, filtered: discardIds.length };
 
     const { error } = await supabase.from('gmail_imports').upsert(
       fresh.map((candidate) => ({
@@ -71,6 +70,7 @@ export const GmailImportService = {
         amount: candidate.amount,
         kind: candidate.kind,
         message_date: candidate.date,
+        auto_save_eligible: candidate.autoSaveEligible,
       })),
       { onConflict: 'user_id,message_id', ignoreDuplicates: true },
     );
@@ -109,7 +109,7 @@ export const GmailImportService = {
       }
     }
 
-    return { added: fresh.length, autoSaved };
+    return { added: fresh.length, autoSaved, filtered: discardIds.length };
   },
 
   async save(input: SaveGmailImportInput) {
@@ -122,6 +122,25 @@ export const GmailImportService = {
     });
     if (error) throw error;
     return data;
+  },
+
+  async saveClearPending(userId: string) {
+    const candidates = selectBulkSaveCandidates(await this.getRecent(userId));
+    let saved = 0;
+    let failed = 0;
+
+    for (const item of candidates) {
+      try {
+        await this.save({
+          id: item.id, title: item.title, amount: item.amount!, kind: item.kind!, category: 'Otros',
+        });
+        saved += 1;
+      } catch {
+        failed += 1;
+      }
+    }
+
+    return { saved, failed };
   },
 
   async discard(userId: string, id: string) {

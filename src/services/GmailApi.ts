@@ -119,7 +119,7 @@ export const GmailApi = {
     }
   },
 
-  async scan(token: string): Promise<{ candidates: ParsedFinancialMessage[]; scanned: number; truncated: boolean }> {
+  async scan(token: string): Promise<{ candidates: ParsedFinancialMessage[]; scannedIds: string[]; scanned: number; truncated: boolean }> {
     const cooldown = remainingScanCooldown(lastScanAt, Date.now());
     if (cooldown > 0) throw new Error(`Espera ${Math.ceil(cooldown / 1000)} segundos antes de volver a sincronizar Gmail.`);
     lastScanAt = Date.now();
@@ -154,6 +154,6 @@ export const GmailApi = {
       }
     }
 
-    return { candidates, scanned: ids.length, truncated: Boolean(nextPage) };
+    return { candidates, scannedIds: ids, scanned: ids.length, truncated: Boolean(nextPage) };
   },
 };
