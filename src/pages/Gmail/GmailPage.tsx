@@ -197,7 +197,7 @@ export function GmailPage() {
         <h2>Listos para guardar <span>{ready.length}</span></h2>
         {loading ? <DataState title="Cargando movimientos..." /> : null}
         {!loading && pending.length === 0 ? <DataState title="Sin movimientos pendientes" message="Conecta Gmail y pulsa Sincronizar ahora para buscar recibos y alertas." /> : null}
-        {!loading && ready.length === 0 && pending.length > 0 ? <p className={styles.note}>Sincroniza Gmail para volver a clasificar estos correos. Las facturas sin pago confirmado seguirán por revisar.</p> : null}
+        {!loading && ready.length === 0 && pending.length > 0 ? <p className={styles.note}>Sincroniza Gmail para volver a clasificar estos correos. Nada se guardará en lote sin un pago confirmado.</p> : null}
         {ready.length > 0 ? <button className={styles.primaryButton} onClick={() => setBulkOpen(true)} disabled={busy}>Guardar {ready.length} movimientos claros</button> : null}
         {ready.map((item) => <GmailImportCard key={item.id} item={item} busy={busy} onReview={setSelected} onDiscard={discard} />)}
       </section>
